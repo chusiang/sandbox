@@ -1,7 +1,6 @@
-.PHONY: main exec_hello build_hello
+.PHONY: All exec_hello build_hello
 
-main: hello.swift
-	xcrun swift hello.swift
+All: exec_hello
 
 exec_hello:
 	xcrun swift hello.swift
