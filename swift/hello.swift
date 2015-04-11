@@ -1,7 +1,7 @@
 #!/usr/bin/swift
 
 
-println("Hello Swift!")
+println("Hello, Swift!")
 
 
 /*
