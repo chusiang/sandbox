@@ -1,3 +1,3 @@
-# chusiang's sandbox
+# My sandbox
 
-This is a sandbox for chusiang.
+This is my sandbox for training, like Git, Pythoh, Swift ... ,etc.
