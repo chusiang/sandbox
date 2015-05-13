@@ -3,16 +3,116 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Bootstraps x Sublime Text</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Lab of Bootstraps x Sublime Text</title>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+
   </head>
-  <body>
-  <ul>
-    <li>1</li>
-    <li>2</li>
-    <li>3</li>
-    <li>4</li>
-    <li>5</li>
-  </ul>
-  </body>
-</html>
+  <body role="document">
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Lab of Bootstrap x Sublime Text</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="https://goo.gl/OZqxkR" target="_blank">About</a></li>
+            <li><a href="https://goo.gl/gyjprS" target="_blank">slides</a></li>
+            <li class="dropdown">
+              <a href="http://getbootstrap.com/examples/theme/#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Document<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="http://getbootstrap.com/" target="_blank">Bootstrap 3</a></li>
+                <li><a href="http://blog.miniasp.com/post/2014/01/07/Useful-tool-Sublime-Text-3-Quick-Start.aspx">Sublime Text 3</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container theme-showcase" role="main">
+
+      <div class="jumbotron">
+        <h1>Hello, Bootstrap!</h1>
+        <p>This is a lab for <b>Bootstrap 3</b> x <b>Sublime Text 3</b></p>
+        <p><a class="btn btn-primary btn-lg" href="https://goo.gl/OZqxkR" role="button" target="_blank">Learn more</a></p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+
+          <h2>li*5 with Emmet</h2>
+          <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+          </ul>
+
+          <h2>Button</h2>
+          <p>
+            <button> Original </button>
+          </p>
+          <p>
+            <button class="btn btn-default"> Bootstrap default style </button>
+          </p>
+          <p>
+            <button class="btn btn-danger"> Bootstrap danger style </button>
+          </p>
+
+        </div>
+
+        <div class="col-md-6">
+
+          <h2>Glyphicons</h2>
+          <button type="button" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star
+          </button>
+
+          <button type="button" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-console" aria-hidden="true"></span> Console
+          </button>
+
+          <button type="button" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Wrench
+          </button>
+
+          <h2>Dropdown Menu</h2>
+          <div class="dropdown">
+            <button class="btn btn-default" data-toggle="dropdown">
+              Hello, Bootstrap
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#">Hello, item 1 !</a></li>
+              <li><a href="#">Hello, item 2 !</a></li>
+              <li><a href="#">Hello, item 3 !</a></li>
+            </ul>
+          </div>
+
+          <h2>nav Menu</h2>
+          You can see the navbar.
+
+        </div>
+
+      </div>
+
+
+      <!-- bootstrap -->
+      <script src="js/jquery-2.1.4.min.js"></script>    <!-- bootstrap is base on jQuery. -->
+      <script src="js/bootstrap.min.js"></script>
+
+    </body>
+  </html>

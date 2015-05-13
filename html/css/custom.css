@@ -1,0 +1,17 @@
+body {
+
+  /*
+   * color:      #fff;
+   * background: #fff;
+   */
+
+}
+
+b {
+  color: #ff0000;
+}
+
+h1, h2 {
+  color: #080808;
+  text-decoration: underline;
+}
