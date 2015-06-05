@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf8 -*-
 # ============================================================
 #  Author: 凍仁翔 / chusiang.lai (at) gmail.com
 #  Blog: http://note.drx.tw
