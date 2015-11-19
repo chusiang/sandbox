@@ -19,6 +19,13 @@
 
 import pytest
 
+def hello(name):
+    message = 'hello ' + name
+    return message
+
+def test_hello():
+    assert hello('jonny') == 'hello jonny' 
+
 def main():
   try:
       result = hello('jonny')
@@ -27,13 +34,6 @@ def main():
   except:
       # ...
       pass
-
-def hello(name):
-    message = 'hello ' + name
-    return message
-
-def test_hello():
-    assert hello('jonny') == 'hello jonny' 
 
 if __name__ == "__main__":
   main()
