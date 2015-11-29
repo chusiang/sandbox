@@ -6,10 +6,10 @@ exec_hello:
 	python hello.py
 
 init:
-	-virtualenv --no-site-packages venv
+	-virtualenv --no-site-packages .venv
 
 update:
 	( \
-		. venv/bin/activate; \
+		. .venv/bin/activate; \
 		pip install --upgrade -r requirement.txt; \
 	)
