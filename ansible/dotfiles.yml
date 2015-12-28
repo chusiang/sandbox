@@ -1,0 +1,43 @@
+---
+
+- name:   Deploying my dotfiles. 
+  hosts:  all
+  tasks: 
+
+    # 使用 setup moudule 列出 OS 種類
+    - name: use setup module to list os distribution
+      # setup moudle 可以使用 filter 過濾相關內容
+      setup: filter=ansible_distribution
+
+    - name: show vim verison.
+      command: bash -c "vim --version | sed -n 1p"
+      register: bash
+    - debug: var=bash.stdout_lines
+
+    # 安裝 vim 套件, 如果是 Ubuntu, 此次練習是 root 所以不用 sudo
+    #- name: Install vim when Ubuntu
+    #  sudo: True
+    #  apt: name=vim
+    #  when: ansible_distribution == "Ubuntu"
+    
+    - name: create workspace for verison control system.
+      file: path=~/vcs state=directory
+
+    - name: get dotfiles.
+      git:  repo=https://github.com/chusiang/tuxENV.git
+            dest=~/vcs/tuxENV
+            refspec=+refs/pull/*:refs/heads/*
+
+    - name: deploy dotfiles.
+      shell: make install chdir="~/vcs/tuxENV/"
+      ignore_errors: True
+
+    - name: get vimrc. 
+      git:  repo=https://github.com/chusiang/vimrc.git
+            dest=~/vcs/vimrc
+            refspec=+refs/pull/*:refs/heads/*
+
+    - name: deploy vimrc. 
+      shell: make install chdir="~/vcs/vimrc/"
+      ignore_errors: True
+
