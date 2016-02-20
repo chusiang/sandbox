@@ -1,0 +1,21 @@
+# ============================================================
+#  Author: chusiang.lai (at) gmail.com
+#  Blog: http://note.drx.tw
+#  Filename: hipchat.yml
+#  Modified: 2016-02-20 23:35
+#  Description: Send a message to hipchat.
+#  Reference: 
+#
+#   1. hipchat | Ansible Documentation
+#    - http://docs.ansible.com/ansible/hipchat_module.html
+#
+# =========================================================== 
+
+
+- name:   Hipchat sample
+  hosts:  docker1
+  tasks: 
+
+    - name: Send Hipchat Notifiaction
+      hipchat: token=<TOKEN_KEY> room=<ROOM_ID> msg="This is a test with Ansible."
+
