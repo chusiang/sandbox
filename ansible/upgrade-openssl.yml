@@ -1,0 +1,46 @@
+#!/usr/bin/env ansible-playbook
+# ============================================================
+#  Author: chusiang / chusiang.lai (at) gmail.com
+#  Filename: upgrade-openssl.yml
+#  Modified: 2016-03-03 11:44
+#  Description: security upgrade the openssl package
+#  Reference: 
+#
+#   1. ansible print debug msg variable - Server Fault
+#    - http://serverfault.com/questions/695786/ansible-print-debug-msg-variable
+#
+# =========================================================== 
+
+---
+- name: upgrade package of openssl 
+  hosts: all
+  sudo: True
+  tasks:
+    - name: upgrade on ubuntu
+      apt: name=openssl update_cache=yes state=latest
+      when: ansible_distribution == "Ubuntu"
+
+    - name: check version on ubuntu
+      command: dpkg-query -W openssl
+      register: dpkg_package_version
+      when: ansible_distribution == "Ubuntu"
+
+    - name: print version
+      debug:
+        msg: "OpenSSL Version: {{ dpkg_package_version.stdout }}"
+      when: ansible_distribution == "Ubuntu"
+
+    - name: upgrade on centos
+      yum: name=openssl update_cache=yes state=latest
+      when: ansible_distribution == "CentOS"
+
+    - name: check version on centos
+      command: rpm -q openssl
+      register: rpm_package_version
+      when: ansible_distribution == "CentOS"
+
+    - name: print version
+      debug:
+        msg: "OpenSSL Version: {{ rpm_package_version.stdout }}"
+      when: ansible_distribution == "CentOS"
+
