@@ -1,0 +1,29 @@
+# ============================================================
+#  Author: jweissig
+#  Filename: ssh-addkey.yml
+#  Modified: 2016-02-29 22:23
+#  Description: add ssh-key.
+#
+#   $ ansible-playbook ssh-addkey.yml --ask-pass
+#   $ ansible-playbook ssh-addkey.yml --ask-pass --limit HOST
+#
+#  Reference: 
+#
+#   1. e45-ssh-addkey.yml jweissig/episode-45
+#    - https://github.com/jweissig/episode-45/blob/master/examples/e45-ssh-addkey.yml
+#
+# =========================================================== 
+
+---
+- hosts: all
+  sudo: yes
+  gather_facts: no
+  remote_user: jonny
+
+  tasks:
+
+  - name: install ssh key
+    authorized_key: user=vagrant
+                    key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+                    state=present
+
