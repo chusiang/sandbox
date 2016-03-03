@@ -2,21 +2,16 @@
 
 ## Setup
 
-### Ansible
+1. Install the Ansible.
+2. Install the Vagrant.
+3. Inatall some packages
 
-1. Create `hosts` file.
+        # Debian & Ubuntu
+        $ sudo apt-get install make
 
-        $ cp hosts.sample hosts
+3. initialization.
 
-### Vagrant
-
-1. Create `Vagrantfile` file.
-
-        $ cp Vagrantfile.sample Vagrantfile
-
-2. Create VM (guest os).
-
-        $ vagrant up
+        $ make init
 
 ## Run
 
