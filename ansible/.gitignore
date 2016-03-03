@@ -1,2 +1,3 @@
-hosts
+Vagrantfile
 ansible-retry/*
+hosts
