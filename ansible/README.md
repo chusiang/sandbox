@@ -30,3 +30,5 @@
 ## Reference
 
 * [sakanamax/LearnAnsible: Some mind map and script for learning ansible](https://github.com/sakanamax/LearnAnsible)
+* [Ansible 自動化組態管理實戰講堂 | DevOps 2015 workshop 系列](http://get.soft-arch.net/ansible/) 
+* [研發者的虛擬機寶典 | Software Architecture School](http://school.soft-arch.net/courses/vm-for-devops)
