@@ -1,3 +1,4 @@
 Vagrantfile
 ansible-retry/*
+ansible.cfg
 hosts
