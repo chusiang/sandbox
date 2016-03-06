@@ -9,7 +9,7 @@ Vagrant.configure(2) do |config|
 
   # Managed node
   #
-  config.vm.define :ubuntu1 do |ubuntu|
+  config.vm.define :ubuntu1, primary: true do |ubuntu|
     ubuntu.vm.box = "ubuntu/trusty64"
     ubuntu.vm.hostname = "ubuntu1.local"
 
@@ -35,7 +35,7 @@ Vagrant.configure(2) do |config|
 
   # Jupyter
   #
-  config.vm.define :jupyter do |jupyter|
+  config.vm.define :jupyter, autostart: true do |jupyter|
     jupyter.vm.box = "ubuntu/trusty64"
     jupyter.vm.hostname = "jupyter.local"
 
