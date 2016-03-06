@@ -9,7 +9,7 @@ Vagrant.configure(2) do |config|
 
   # Managed node
   #
-  config.vm.define :ubuntu1, primary: true do |ubuntu|
+  config.vm.define :ubuntu1 do |ubuntu|
     ubuntu.vm.box = "ubuntu/trusty64"
     ubuntu.vm.hostname = "ubuntu1.local"
 
@@ -35,7 +35,7 @@ Vagrant.configure(2) do |config|
 
   # Jupyter
   #
-  config.vm.define :jupyter, autostart: true do |jupyter|
+  config.vm.define :jupyter, primary: true do |jupyter|
     jupyter.vm.box = "ubuntu/trusty64"
     jupyter.vm.hostname = "jupyter.local"
 
@@ -47,7 +47,7 @@ Vagrant.configure(2) do |config|
     end
     
     # install jupyter.
-    JUPYTER_SCRIPTS = [ "init-vagrant.sh", "init-jupyter.sh" ]
+    JUPYTER_SCRIPTS = [ "init-vagrant.sh", "init-jupyter.sh", "install-vim.sh" ]
     for script_file in JUPYTER_SCRIPTS
       jupyter.vm.provision "shell", path: script_file
     end
