@@ -20,3 +20,6 @@ retry_files_save_path = ./ansible-retry
 
 # 平行處理數量, 預設是 5 個, 應該不一定會用到先記下來
 # forks = 20
+
+# 關閉警告訊息
+#deprecation_warnings=False
