@@ -13,8 +13,10 @@
 # =========================================================== 
 
 # Jupyter
-#
 sudo apt-get install -y python-dev
 sudo apt-get install -y python-pip
 sudo pip install --upgrade ipython[all]
+
+# for support '-k, --ask-pass' option.
+sudo apt-get install -y sshpass
 
