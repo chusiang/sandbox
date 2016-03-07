@@ -11,14 +11,16 @@
 #
 #   1. e45-ssh-addkey.yml jweissig/episode-45
 #    - https://github.com/jweissig/episode-45/blob/master/examples/e45-ssh-addkey.yml
+#   2. Install and setup ansible
+#    - https://nsrc.org/workshops/2015/rwnog/raw-attachment/wiki/Track2Agenda/install-setup-ansible.htm#password-authentication
 #
 # =========================================================== 
 
 ---
 - hosts: all
-  sudo: yes
+  #sudo: yes
   gather_facts: no
-  remote_user: jonny
+  remote_user: vagrant
 
   tasks:
 
