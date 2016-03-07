@@ -2,22 +2,18 @@
 
 Infrastructure of this lab.
            
-    ------------------------------------------------
-    | -------------------------------------------- |
-    | | -----------------      ----------------- | |
-    | | |               |      |               | | |
-    | | |    jupyter    |      |    ubuntu1    | | |
-    | | |               | ---> |               | | |
-    | | | (33.33.33.11) |      | (33.33.33.31) | | |
-    | | |               |      |               | | |
-    | | -----------------      ----------------- | |
-    | |            \                             | |
-    | |      Vagrant (Virtualbox, Guest OS)      | |
-    | -------------------------------------------| |
-    |                  \                           |
-    |                   Host OS                    |
-    ------------------------------------------------
-
+    +-------------------------------------------------+
+    | +---------------------------------------------+ |
+    | | +---------------+         +---------------+ | |
+    | | |    jupyter    | Ansible |    ubuntu1    | | |
+    | | | (33.33.33.11) | ------> | (33.33.33.31) | | |
+    | | +---------------+   SSH   +---------------+ | |
+    | |            \                                | |
+    | |       Guest OS (Vagrant + Virtualbox)       | |
+    | +--------------\------------------------------+ |
+    |                 \                               |
+    |         Host OS (http://127.0.0.1:8888)         |
+    +-------------------------------------------------+
 
 ## Setup
 
@@ -81,10 +77,12 @@ Ansible:
 * [Ansible 中文權威指南 1.0.1 (非官方)](http://chusiang.github.io/ansible-docs-translate/)
 * [sakanamax/LearnAnsible: Some mind map and script for learning ansible](https://github.com/sakanamax/LearnAnsible)
 * [2015 12 月份 SA@Tainan 淺談 Ansible 自動化組態管理工具之筆記 | Just for noting](https://m157q.github.io/posts/2015/12/26/study-area-ansible-tutorial-note/)
+* [#Ansible | DevOps Taiwan @SlackArchive.io](http://devopstaiwan.slackarchive.io/ansible/)
 
 Vagrant:
 
 * [研發者的虛擬機寶典 | Software Architecture School](http://school.soft-arch.net/courses/vm-for-devops)
+* [#Vagrant | DevOps Taiwan @SlackArchive.io](http://devopstaiwan.slackarchive.io/vagrant/)
 
 Jupyter:
 
