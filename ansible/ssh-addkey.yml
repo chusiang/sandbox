@@ -1,3 +1,5 @@
+#!/usr/bin/env ansible-playbook
+# vim:ft=ansible :
 # ============================================================
 #  Author: jweissig
 #  Filename: ssh-addkey.yml
