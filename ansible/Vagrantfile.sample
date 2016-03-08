@@ -18,7 +18,7 @@ Vagrant.configure(2) do |config|
     ubuntu.vm.network "forwarded_port", guest: 443, host: 8443
 
     ubuntu.vm.provider "virtualbox" do |vb|
-      vb.memory = "512"
+      vb.memory = "256"
     end
 
     UBUNTU_SCRIPTS = [ "init-vagrant.sh", "install-vim.sh" ]
@@ -56,12 +56,29 @@ Vagrant.configure(2) do |config|
       ipython notebook --notebook-dir=/vagrant --no-browser --ip=0.0.0.0 &
     SHELL
 
-    # ansible & ssh key
+    # install ansible.
     jupyter.vm.provision "shell", inline: <<-SHELL
-      sudo pip install --upgrade ansible
+      echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" | \
+        sudo tee /etc/apt/sources.list.d/ansible.list
+      echo "deb-src http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" | \
+        sudo tee -a /etc/apt/sources.list.d/ansible.list
+      sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 7BB9C367
+      sudo apt-get update
+      sudo apt-get install ansible
+    SHELL
+
+    # get ssh key.
+    jupyter.vm.provision "shell", inline: <<-SHELL
       sudo cp /vagrant/.vagrant/machines/ubuntu1/virtualbox/private_key ~/.ssh/id_rsa
       sudo ssh-keygen -f ~/.ssh/id_rsa -y > ~/.ssh/id_rsa.pub
     SHELL
+
+    # add ssh-key to other node.
+    jupyter.vm.provision "ansible" do |ansible|
+      ansible.playbook = "ssh-addkey.yml"
+      #ansible.sudo = true
+      #ansible.verbose = "vvv"
+    end
   end
 
 end
