@@ -4,8 +4,27 @@
 #  Author: chusiang / chusiang.lai (at) gmail.com
 #  Blog: http://note.drx.tw
 #  Filename: hello.yml
-#  Modified: 2016-03-09 13:47
-#  Description: A sample code for ansible-playbook 
+#  Modified: 2016-03-09 13:59
+#  Description: A sample code for ansible-playbook.
+#
+#   root@jupyter:/vagrant# ansible-playbook hello.yml
+#   
+#   PLAY [say hello] ***************************************************************
+#   
+#   TASK [setup] *******************************************************************
+#   ok: [ubuntu1]
+#   
+#   TASK [run] *********************************************************************
+#   changed: [ubuntu1]
+#   
+#   TASK [print] *******************************************************************
+#   ok: [ubuntu1] => {
+#       "msg": "Hello, Ansible !"
+#   }
+#   
+#   PLAY RECAP *********************************************************************
+#   ubuntu1                    : ok=3    changed=1    unreachable=0    failed=0
+#
 # =========================================================== 
 
 ---
