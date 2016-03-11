@@ -8,4 +8,4 @@
 #  Description: A sample code for Python.
 # =========================================================== 
 
-print 'Hello, Python!'
+print('Hello, Python !')
