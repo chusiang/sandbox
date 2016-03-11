@@ -71,6 +71,11 @@
       debug:
         msg: "Nginx Version: {{ dpkg_package_version.stdout }}"
 
+    - name: modify nginx.conf
+      template: src=templates/templates/nginx/nginx.conf.j2 dest=/etc/nginx/nginx.conf
+      notify:
+        - restart nginx
+
     - name: add vhost
       template:
         src: templates/nginx/wordpress.j2
