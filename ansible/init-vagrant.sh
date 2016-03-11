@@ -5,5 +5,13 @@ sudo su -c "sed -i 's/archive.ubuntu.com/free.nchc.org.tw/g' /etc/apt/sources.li
 sudo apt-get update
 
 # install other package.
-sudo apt-get install -y aptitude git tmux make less w3m mosh
+sudo apt-get install -y \
+  ack-grep
+  aptitude
+  git \
+  less \
+  make \
+  mosh \
+  tmux \
+  w3m \
 
