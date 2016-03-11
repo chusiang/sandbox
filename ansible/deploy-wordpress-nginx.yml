@@ -1,0 +1,115 @@
+#!/usr/bin/env ansible-playbook
+# vim:ft=ansible:
+# ============================================================
+#  Author: chusiang / chusiang.lai (at) gmail.com
+#  Filename: deploy-wordpress-nginx.yml
+#  Modified: 2016-03-10 23:29
+#  Description:
+#
+#   deploy wordpress with Nginx + php5-fpm + MariaDB on Debian/Ubuntu.
+#
+#  Reference: 
+#
+#   1. ansible print debug msg variable - Server Fault
+#    - http://serverfault.com/questions/695786/ansible-print-debug-msg-variable
+#   2. ansible/ansible-examples/wordpress-nginx | GitHub
+#    - https://github.com/ansible/ansible-examples/tree/master/wordpress-nginx
+#
+# =========================================================== 
+---
+
+- name: install php-fpm
+  hosts: all
+  sudo: True
+  tasks:
+
+    - name: install packages
+      apt: name={{ item }} update_cache=yes state=latest
+      with_items:
+        - php5-cli
+        - php5-common
+        - php5-fpm
+        - php5-mysql
+        - php5-readline
+
+    - name: check version
+      command: dpkg-query -W php5-fpm
+      register: dpkg_package_version
+
+    - name: print version
+      debug:
+        msg: "php-fpm Version: {{ dpkg_package_version.stdout }}"
+
+    - name: modify php.ini
+      template: src=templates/php.ini.j2 dest=/etc/php5/fpm/php.ini
+      notify:
+        - restart php-fpm
+
+    - name: start php-fpm
+      service: name=php5-fpm state=started enabled=yes
+
+  handlers:
+
+    - name: restart php-fpm
+      service: name=php5-fpm state=restarted
+
+- name: install nginx
+  hosts: all
+  sudo: True
+  tasks:
+  
+    - name: install packages
+      apt: name={{ item }} update_cache=yes state=latest
+      with_items:
+        - nginx
+
+    - name: check version
+      command: dpkg-query -W nginx
+      register: dpkg_package_version
+
+    - name: print version
+      debug:
+        msg: "Nginx Version: {{ dpkg_package_version.stdout }}"
+
+    - name: add vhost
+      template:
+        src: templates/nginx/wordpress.j2
+        dest: /etc/nginx/sites-available/default
+      notify:
+        - restart nginx
+
+    - name: enable vhost
+      file:
+        src: /etc/nginx/sites-available/default
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+
+    - name: start nginx
+      service: name=nginx state=started enabled=yes
+
+  handlers:
+
+    - name: restart nginx
+      service: name=nginx state=restarted
+
+      #- name: install mariadb
+      #  hosts: all
+      #  sudo: True
+      #  tasks:
+      #
+      #    - name: add apt repository
+      #      apt_repository: repo='deb http://ftp.yz.yamagata-u.ac.jp/pub/dbms/mariadb/repo/10.1/ubuntu trusty main' state=present
+      #
+      #    - name: add an apt key
+      #      apt_key: keyserver=keyserver.ubuntu.com id=0xcbcb082a1bb943db
+      #
+      #    - name: install packages
+      #      apt: name={{ item }} update_cache=yes state=latest
+      #      with_items:
+      #        - mariadb-server
+      #        - python-mysqldb
+      #
+      #    - name: start mariadb
+      #      service: name=mariadb state=started enabled=yes
+
+
