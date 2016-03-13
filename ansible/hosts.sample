@@ -8,14 +8,12 @@
 
 # 如果有定義到 ansible.cfg 的 [ defaults ] 就可以不列出
 # testserver   ansible_ssh_host=xxx.xxx.xxx.xxx ansible_ssh_port=xx ansible_ssh_pass
-ubuntu1   ansible_ssh_host=33.33.33.31  ansible_ssh_port=22
-
 
 # 針對不同的平台可能 key 以及使用者不一樣可以額外指定
 
 # 也可以用群組的方式
 [vagrant]
-ubuntu1
+ubuntu1   ansible_ssh_host=33.33.33.31  ansible_ssh_port=22
 
 [test]
 ubuntu1
