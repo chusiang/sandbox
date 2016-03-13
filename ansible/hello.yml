@@ -40,3 +40,5 @@
       debug:
         msg: "{{ result.stdout }}"
 
+    - debug: var=result
+
