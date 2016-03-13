@@ -1,21 +1,32 @@
 #!/usr/bin/env ansible-playbook
 # vim:ft=ansible:
+# ============================================================
+#  Author: chusiang / chusiang.lai (at) gmail.com
+#  Blog: http://note.drx.tw
+#  Filename: deploy-mezzanine.yml
+#  Modified: 2016-03-14 01:16
+#  Description: 
+#
+#   $ ansible-playbook mezzanine/deploy-mezzanine.yml
+#
+# =========================================================== 
 
+---
 - name: deploy mezzanine
   hosts: localhost
   tasks:
-    #- name: install packages with apt
-    #  sudo: True
-    #  apt: name={{ item }} update_cache=yes state=latest
-    #  with_items:
-    #    - python-pip
-    #    - python-dev
-    #    - build-essential
-    #    - libjpeg8
-    #    - libjpeg8-dev
-    #    - libfreetype6
-    #    - libfreetype6-dev
-    #    - zlib1g-dev
+    - name: install packages with apt
+      sudo: True
+      apt: name={{ item }} update_cache=yes state=latest
+      with_items:
+        - python-pip
+        - python-dev
+        - build-essential
+        - libjpeg8
+        - libjpeg8-dev
+        - libfreetype6
+        - libfreetype6-dev
+        - zlib1g-dev
 
     - name: create workspace
       file:
@@ -23,11 +34,11 @@
         mode=755
         state=directory
 
-        #- name: install pillow package with pip from github
-        #  pip: >
-        #    name='git+https://github.com/python-pillow/Pillow.git'
-        #    virtualenv='~/myproject/venv'
-        #    editable=false
+    - name: install pillow package with pip from github
+      pip: >
+        name='git+https://github.com/python-pillow/Pillow.git'
+        virtualenv='~/myproject/venv'
+        editable=false
 
     - name: install packages with pip
       #pip: >
@@ -46,13 +57,13 @@
         cd /home/vagrant/myproject/; \
         /home/vagrant/myproject/venv/bin/mezzanine-project myapp
 
-        #- name: create database
-        #  shell: >
-        #    cd /home/vagrant/myproject/myapp; \
-        #    /home/vagrant/myproject/venv/bin/python manage.py createdb
+    #- name: create database
+    #  shell: >
+    #    cd /home/vagrant/myproject/myapp; \
+    #    /home/vagrant/myproject/venv/bin/python manage.py createdb
 
-        #- name: run server
-        #  shell: >
-        #    cd /home/vagrant/myproject/myapp; \
-        #    /home/vagrant/myproject/venv/bin/python manage.py runserver 0.0.0.0:8000
+    #- name: run server
+    #  shell: >
+    #    cd /home/vagrant/myproject/myapp; \
+    #    /home/vagrant/myproject/venv/bin/python manage.py runserver 0.0.0.0:8000
 
