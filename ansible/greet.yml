@@ -1,0 +1,24 @@
+#!/usr/bin/env ansible-playbook
+# vim:ft=ansible :
+# ============================================================
+#  Author: Lorin Hochstein
+#  Filename: greet.yml
+#  Description: 
+#
+#   $ ansible-playbook greet.yml -e greeting=hiya
+#   $ ansible-playbook greet.yml -e 'greeting="hi there"'
+#   $ ansible-playbook greet.yml -e @greetvars.yml
+#
+#  Reference:《Ansible: Up and Running》example 4-12.
+# =========================================================== 
+
+---
+- name: pass a message on the command line
+  hosts: localhost
+  vars:
+    greeting: "you didn't specify a message"
+  tasks:
+    - name: output a message
+      debug:
+        msg: msg="{{ greeting }}"
+

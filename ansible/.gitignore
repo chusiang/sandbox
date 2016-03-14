@@ -1,5 +1,14 @@
+# jupyter notebook.
 .ipynb_checkpoints/
+
+# Vagrant.
 Vagrantfile
+
+# Ansible.
 ansible-retry/*
 ansible.cfg
 hosts
+
+## Playbook.
+sandbox.yml
+
