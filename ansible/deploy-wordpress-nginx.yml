@@ -20,11 +20,11 @@
 
 - name: install php-fpm
   hosts: all
-  sudo: True
   tasks:
 
     - name: install packages
-      apt: name={{ item }} update_cache=yes state=latest
+      sudo: True
+      apt: name={{ item }} update_cache=yes state=latest cache_valid_time=3600
       with_items:
         - php5-cli
         - php5-common
@@ -41,21 +41,23 @@
         msg: "php-fpm Version: {{ dpkg_package_version.stdout }}"
 
     - name: modify php.ini
+      sudo: True
       template: src=templates/php.ini.j2 dest=/etc/php5/fpm/php.ini
       notify:
         - restart php-fpm
 
     - name: start php-fpm
+      sudo: True
       service: name=php5-fpm state=started enabled=yes
 
   handlers:
 
     - name: restart php-fpm
+      sudo: True
       service: name=php5-fpm state=restarted
 
 - name: install nginx
   hosts: all
-  sudo: True
   vars:
 
     conf_file: /etc/nginx/sites-available/default
@@ -63,7 +65,8 @@
   tasks:
   
     - name: install packages
-      apt: name={{ item }} update_cache=yes state=latest
+      sudo: True
+      apt: name={{ item }} update_cache=yes state=latest cache_valid_time=3600
       with_items:
         - nginx
 
@@ -74,13 +77,15 @@
     - name: print version
       debug:
         msg: "Nginx Version: {{ dpkg_package_version.stdout }}"
-apt 
+
     - name: modify nginx.conf
+      sudo: True
       template: src=templates/templates/nginx/nginx.conf.j2 dest=/etc/nginx/nginx.conf
       notify:
         - restart nginx
 
     - name: backup origin vhost
+      sudo: True
       copy:
         src: {{ conf_file }}
         dest: /etc/nginx/sites-available/default.ori
@@ -88,6 +93,7 @@ apt
         - restart nginx
 
     - name: add vhost
+      sudo: True
       template:
         src: templates/nginx/wordpress.j2
         dest: {{ conf_file }}
@@ -95,17 +101,20 @@ apt
         - restart nginx
 
     - name: enable vhost
+      sudo: True
       file:
         src: {{ conf_file }}
         dest: /etc/nginx/sites-enabled/default
         state: link
 
     - name: start nginx
+      sudo: True
       service: name=nginx state=started enabled=yes
 
   handlers:
 
     - name: restart nginx
+      sudo: True
       service: name=nginx state=restarted
 
       #- name: install mariadb

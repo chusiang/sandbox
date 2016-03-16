@@ -18,7 +18,7 @@
 
     - name: install zabbix-agent
       sudo: True
-      apt: name=zabbix-agent update_cache=yes state=latest
+      apt: name=zabbix-agent update_cache=yes state=latest cache_valid_time=3600
 
     - name: check version
       command: dpkg-query -W zabbix-agent

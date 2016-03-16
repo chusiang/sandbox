@@ -15,10 +15,11 @@
 ---
 - name: upgrade package of openssl 
   hosts: all
-  sudo: True
   tasks:
+
     - name: upgrade on ubuntu
-      apt: name=openssl update_cache=yes state=latest
+      sudo: True
+      apt: name=openssl update_cache=yes state=latest cache_valid_time=3600
       when: ansible_distribution == "Ubuntu"
 
     - name: check version on ubuntu
@@ -28,11 +29,12 @@
 
     - name: print version
       debug:
-        msg: "OpenSSL Version: {{ dpkg_package_version.stdout }}"
+        msg: "Package Version: {{ dpkg_package_version.stdout }}"
       when: ansible_distribution == "Ubuntu"
 
     - name: upgrade on centos
-      yum: name=openssl update_cache=yes state=latest
+      sudo: True
+      yum: name=openssl update_cache=yes state=latest cache_valid_time=3600
       when: ansible_distribution == "CentOS"
 
     - name: check version on centos
@@ -42,6 +44,6 @@
 
     - name: print version
       debug:
-        msg: "OpenSSL Version: {{ rpm_package_version.stdout }}"
+        msg: "Package Version: {{ rpm_package_version.stdout }}"
       when: ansible_distribution == "CentOS"
 

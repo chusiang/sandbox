@@ -8,24 +8,29 @@
 # =========================================================== 
 
 ---
-- name: deploy docker
+- name: deploy docker-engine
   hosts: all
-  sudo: True
   tasks:
 
     - name: add an apt key
+      sudo: True
       apt_key:
         keyserver: hkp://p80.pool.sks-keyservers.net:80
         id: 58118E89F3A912897C070ADBF76221572C52609D
 
     - name: add apt repository
+      sudo: True
       apt_repository:
         repo: 'deb https://apt.dockerproject.org/repo ubuntu-trusty main'
-        #repo: 'deb https://apt.dockerproject.org/repo ubuntu-wily main'
         state: present
 
     - name: install
-      apt: name=docker-engine update_cache=yes state=latest
+      sudo: True
+      apt:
+        name: docker-engine
+        update_cache: yes
+        state: latest
+        cache_valid_time: 3600
 
     - name: check version
       command: dpkg-query -W docker-engine
@@ -33,5 +38,5 @@
 
     - name: print version
       debug:
-        msg: "Docker Version: {{ dpkg_package_version.stdout }}"
+        msg: "Package Version: {{ dpkg_package_version.stdout }}"
 
