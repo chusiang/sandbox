@@ -1,0 +1,40 @@
+#!/usr/bin/env ansible-playbook
+# vim:ft=ansible:
+# ============================================================
+#  Author: chusiang / chusiang.lai (at) gmail.com
+#  Blog: http://note.drx.tw
+#  Filename: deploy-zabbix-agent.yml
+#  Modified: 2016-03-16 17:46
+#  Description: deploy zabbix-agent.
+# =========================================================== 
+
+---
+- name: deploy zabbix-agent
+  hosts: all
+  vars:
+    hostname: vagrant
+    server: zabbix.example.tw
+  tasks:
+
+    - name: install zabbix-agent
+      sudo: True
+      apt: name=zabbix-agent update_cache=yes state=latest
+
+    - name: check version
+      command: dpkg-query -W zabbix-agent
+      register: package_version
+
+    - name: modify configure
+      sudo: True
+      template: src=templates/zabbix_agentd.conf.j2 dest=/etc/zabbix/zabbix_agentd.conf
+      notify: restart zabbix-agent
+
+    - name: print version
+      debug:
+        msg: "Zabbix-Agent Version: {{ package_version.stdout }}"
+
+  handlers:
+    - name: restart zabbix-agent
+      sudo: True
+      service: name=zabbix-agent state=restarted
+
