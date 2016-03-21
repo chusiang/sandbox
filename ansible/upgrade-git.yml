@@ -9,17 +9,41 @@
 #
 #   1. ansible print debug msg variable - Server Fault
 #    - http://serverfault.com/questions/695786/ansible-print-debug-msg-variable
+#   2. use yum list with ansible? need install 'yum-utils' package.
 #
 # =========================================================== 
 
 ---
 - name: upgrade package of git 
   hosts: all
+  vars:
+    code_name: trusty
   tasks:
+
+    - name: add an apt repository on ubuntu
+      sudo: True
+      apt_repository: >
+        repo='deb http://ppa.launchpad.net/git-core/ppa/ubuntu {{ code_name }} main'
+        state=present
+      when: ansible_distribution == "Ubuntu"
+
+    - name: add an apt repository source on ubuntu
+      sudo: True
+      apt_repository: >
+        repo='deb-src http://ppa.launchpad.net/git-core/ppa/ubuntu {{ code_name }} main'
+        state=present
+      when: ansible_distribution == "Ubuntu"
+
+    - name: add an apt key
+      sudo: True
+      apt_key: >
+        keyserver=keyserver.ubuntu.com
+        id=E1DD270288B4E6030699E45FA1715D88E1DF1F24
+      when: ansible_distribution == "Ubuntu"
 
     - name: upgrade on ubuntu
       sudo: True
-      apt: name=git update_cache=yes state=latest cache_valid_time=3600
+      apt: name=git update_cache=yes state=latest
       when: ansible_distribution == "Ubuntu"
 
     - name: check version on ubuntu
