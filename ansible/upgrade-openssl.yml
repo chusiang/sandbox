@@ -17,6 +17,7 @@
   hosts: all
   tasks:
 
+    # Ubuntu
     - name: upgrade on ubuntu
       sudo: True
       apt: name=openssl update_cache=yes state=latest cache_valid_time=3600
@@ -32,18 +33,24 @@
         msg: "Package Version: {{ dpkg_package_version.stdout }}"
       when: ansible_distribution == "Ubuntu"
 
+    # CentOS
     - name: upgrade on centos
       sudo: True
-      yum: name=openssl update_cache=yes state=latest cache_valid_time=3600
+      yum: name=openssl update_cache=yes state=latest
       when: ansible_distribution == "CentOS"
 
     - name: check version on centos
-      command: rpm -q openssl
-      register: rpm_package_version
+      yum: list=openssl
+      register: yum_package_list
       when: ansible_distribution == "CentOS"
 
     - name: print version
       debug:
-        msg: "Package Version: {{ rpm_package_version.stdout }}"
+        msg: "{{ yum_package_list.results.1.nevra }}"
       when: ansible_distribution == "CentOS"
+
+    #- name: print list message
+    #  debug:
+    #    msg: "{{ yum_package_list }}"
+    #  when: ansible_distribution == "CentOS"
 
