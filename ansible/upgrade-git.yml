@@ -1,0 +1,54 @@
+#!/usr/bin/env ansible-playbook
+# vim:ft=ansible :
+# ============================================================
+#  Author: chusiang / chusiang.lai (at) gmail.com
+#  Filename: upgrade-git.yml
+#  Modified: 2016-03-03 11:44
+#  Description: security upgrade the git package
+#  Reference: 
+#
+#   1. ansible print debug msg variable - Server Fault
+#    - http://serverfault.com/questions/695786/ansible-print-debug-msg-variable
+#
+# =========================================================== 
+
+---
+- name: upgrade package of git 
+  hosts: all
+  tasks:
+
+    - name: upgrade on ubuntu
+      sudo: True
+      apt: name=git update_cache=yes state=latest cache_valid_time=3600
+      when: ansible_distribution == "Ubuntu"
+
+    - name: check version on ubuntu
+      command: dpkg-query -W git
+      register: dpkg_package_version
+      when: ansible_distribution == "Ubuntu"
+
+    - name: print version
+      debug:
+        msg: "Package Version: {{ dpkg_package_version.stdout }}"
+      when: ansible_distribution == "Ubuntu"
+
+    - name: upgrade on centos
+      sudo: True
+      yum: name=git update_cache=yes state=latest
+      when: ansible_distribution == "CentOS"
+
+    - name: check version on centos
+      yum: list=git
+      register: yum_package_list
+      when: ansible_distribution == "CentOS"
+
+    - name: print version
+      debug:
+        msg: "{{ yum_package_list.results.1.nevra }}"
+      when: ansible_distribution == "CentOS"
+
+    #- name: print list message
+    #  debug:
+    #    msg: "{{ yum_package_list }}"
+    #  when: ansible_distribution == "CentOS"
+
