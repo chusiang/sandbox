@@ -3,13 +3,13 @@
 # ============================================================
 #  Author: chusiang / chusiang.lai (at) gmail.com
 #  Filename: upgrade-git.yml
-#  Modified: 2016-03-03 11:44
+#  Modified: 2016-03-21 16:50
 #  Description: security upgrade the git package
 #  Reference: 
 #
-#   1. ansible print debug msg variable - Server Fault
-#    - http://serverfault.com/questions/695786/ansible-print-debug-msg-variable
-#   2. use yum list with ansible? need install 'yum-utils' package.
+#   1. use `yum list` with ansible? need install 'yum-utils' package.
+#   2. Git stable releases : "Ubuntu Git Maintainers" team
+#    - https://launchpad.net/~git-core/+archive/ubuntu/ppa
 #
 # =========================================================== 
 

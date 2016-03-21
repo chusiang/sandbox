@@ -9,6 +9,7 @@
 #
 #   1. ansible print debug msg variable - Server Fault
 #    - http://serverfault.com/questions/695786/ansible-print-debug-msg-variable
+#   2. use yum list with ansible? need install 'yum-utils' package.
 #
 # =========================================================== 
 
