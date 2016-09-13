@@ -7,7 +7,7 @@ if [ "$BASH_MODE" != "set -o vi" ]; then
 fi
 
 # install vim.
-sudo apt-get install -y vim
+sudo apt-get install -y vim exuberant-ctags
 
 # Setting default editor to vim.
 sudo update-alternatives --set editor /usr/bin/vim.basic
