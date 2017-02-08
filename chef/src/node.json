@@ -1,0 +1,7 @@
+{
+  "run_list": [ "recipe[nginx]", "recipe[zabbix-agent]" ],
+  "zabbix_agent": {
+    "server": "zabbix.example.tw",
+    "server_active": "zabbix.example.tw"
+  }
+}

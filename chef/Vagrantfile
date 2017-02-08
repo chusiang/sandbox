@@ -1,0 +1,92 @@
+# -*- mode: ruby -*-
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure(2) do |config|
+
+  config.ssh.insert_key = false
+
+  # Chef-Solo
+  #
+  config.vm.define :chef_solo do |ubuntu|
+    ubuntu.vm.box = "ubuntu/trusty64"
+    ubuntu.vm.hostname = "chef-solo.local"
+
+    # networking.
+    ubuntu.vm.network :private_network, ip: "33.33.33.31"
+    ubuntu.vm.network "forwarded_port", guest: 80, host: 8080
+    ubuntu.vm.network "forwarded_port", guest: 443, host: 8443
+
+    # memory.
+    ubuntu.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+    end
+
+    # share folder.
+    ubuntu.vm.synced_folder "src/", "/etc/chef"
+
+    # provision.
+    UBUNTU_SCRIPTS = [ "init-vagrant.sh", "install-vim.sh", "bootstrap-chef-solo.sh" ]
+    for script_file in UBUNTU_SCRIPTS
+      ubuntu.vm.provision "shell", path: script_file
+    end
+  end
+
+  # Jupyter
+  #
+=begin
+  config.vm.define :jupyter, primary: true do |jupyter|
+    jupyter.vm.box = "ubuntu/trusty64"
+    jupyter.vm.hostname = "jupyter.local"
+
+    jupyter.vm.network :private_network, ip: "33.33.33.11"
+    jupyter.vm.network "forwarded_port", guest: 8888, host: 8888
+
+    jupyter.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+    end
+    
+    # install jupyter.
+    JUPYTER_SCRIPTS = [ "init-vagrant.sh", "init-jupyter.sh", "install-vim.sh" ]
+    for script_file in JUPYTER_SCRIPTS
+      jupyter.vm.provision "shell", path: script_file
+    end
+
+    jupyter.vm.provision "shell", run: "always", inline: <<-SHELL
+      jupyter notebook --notebook-dir=/vagrant --no-browser --ip=0.0.0.0 &
+    SHELL
+
+    # install chef.
+    jupyter.vm.provision "shell", inline: <<-SHELL
+      # get chefdk.
+      wget -c https://packages.chef.io/stable/ubuntu/12.04/chefdk_0.17.17-1_amd64.deb -O /vagrant/chefdk_0.17.17-1_amd64.deb
+      sudo dpkg -i /vagrant/chefdk_0.17.17-1_amd64.deb
+
+      # install necessary package.
+      sudo apt-get update
+      sudo apt-get --no-install-recommends -y install build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev libgdbm-dev ncurses-dev automake libtool bison pkg-config libffi-dev
+
+      # auto fix something.
+      sudo apt-get install -f
+    SHELL
+
+    # get ssh key.
+    #jupyter.vm.provision "shell", inline: <<-SHELL
+    #  sudo cp /vagrant/.vagrant/machines/ubuntu1/virtualbox/private_key ~/.ssh/id_rsa
+    #  sudo ssh-keygen -f ~/.ssh/id_rsa -y > ~/.ssh/id_rsa.pub
+    #SHELL
+
+    # add ssh-key to other node.
+    #jupyter.vm.provision "ansible" do |ansible|
+    #  ansible.playbook = "ssh-addkey.yml"
+    #  #ansible.sudo = true
+    #  #ansible.verbose = "vvv"
+    #end
+  end
+=end
+
+end
+
+# vi: set ft=ruby :
