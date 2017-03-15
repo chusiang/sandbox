@@ -1,0 +1,30 @@
+# ============================================================
+#  Author: chusiang (at) drx.tw
+#  Blog: http://note.drx.tw
+#  Filename: rocketchat.yml
+#  Modified: 2017-03-14 14:07
+#  Description: Send a message to Rocket Chat. 
+#  Reference: 
+#
+#   1. rocketchat | Ansible Documentation
+#    - https://docs.ansible.com/ansible/rocketchat_module.html
+#
+# =========================================================== 
+
+- name: Rocket.Chat sample
+  hosts: localhost
+
+  vars:
+    token: 'FIX_ME'
+    domain: 'example.drx.tw'
+
+  tasks: 
+    - name: Send Rocket.Chat Notifiaction
+      rocketchat:
+        token: '{{ token }}'
+        domain: '{{ domain }}'
+        protocol: http
+        msg: 'This is a test with Ansible.'
+      delegate_to: localhost
+
+# vim: ft=ansible :

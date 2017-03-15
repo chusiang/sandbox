@@ -1,0 +1,24 @@
+# ============================================================
+#  Author: chusiang (at) drx.tw
+#  Blog: http://note.drx.tw
+#  Filename: telegram.yml
+#  Modified: 2017-03-10 10:24
+#  Description: Send a message to telegram.
+#  Reference: 
+#
+#   1. telegram | Ansible Documentation
+#    - https://docs.ansible.com/ansible/telegram_module.html
+#
+# =========================================================== 
+
+
+- name: Telegram exsample
+  hosts: localhost
+  tasks: 
+
+    - name: send Telegram Notifiaction
+      telegram:
+        token: 'bot9999999:XXXXXXXXXXXXXXXXXXXXXXX'
+        chat_id: 000000
+        msg: Send a message with Ansible.
+

@@ -8,6 +8,7 @@ Vagrantfile
 ansible-retry/*
 ansible.cfg
 hosts
+*.retry
 
 ## Playbook.
 sandbox.yml
