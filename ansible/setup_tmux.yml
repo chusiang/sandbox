@@ -1,0 +1,53 @@
+# ============================================================
+#  Author: Chu-Siang Lai / chusiang (at) drx.tw
+#  Filename: setup_tmux.yml
+#  Modified: 2017-06-02 16:35
+#  Description: Setup the latest tmux with make.
+#  Reference: https://raw.githubusercontent.com/tmux/tmux/master/README
+# ============================================================
+---
+
+- name: setup the tmux with make
+  hosts: all
+
+  vars:
+    tmux_version: 2.5
+
+  tasks:
+    - name: install necessary packages
+      become: true
+      yum:
+        name: '{{ item }}'
+        state: present
+      with_items:
+        - gcc
+        - libevent-devel
+        - ncurses-devel
+
+    - name: get tmux tarball
+      get_url:
+        url: https://github.com/tmux/tmux/releases/download/{{ tmux_version }}/tmux-{{ tmux_version }}.tar.gz
+        dest: /tmp/
+
+    - name: unzip tmux tarball
+      unarchive:
+        src: /tmp/tmux-{{ tmux_version }}.tar.gz
+        dest: /tmp/
+
+    - name: run './configure'
+      command: ./configure
+      args:
+        chdir: /tmp/tmux-{{ tmux_version }}
+
+    - name: run 'make'
+      command: make
+      args:
+        chdir: /tmp/tmux-{{ tmux_version }}
+
+    - name: run 'make install'
+      become: true
+      command: make install
+      args:
+        chdir: /tmp/tmux-{{ tmux_version }}
+
+# vim:ft=ansible :
