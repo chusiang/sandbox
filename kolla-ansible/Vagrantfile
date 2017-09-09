@@ -1,0 +1,62 @@
+# -*- mode: ruby -*-
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/xenial64"
+  config.vm.hostname = "kolla-ansible"
+  config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    vb.gui = true
+  
+    # Customize the amount of memory on the VM:
+    vb.memory = "4096"
+
+    # use the link clone.
+    vb.linked_clone = true
+
+    # disable the GUI.
+    vb.gui = false
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    # create 4G swap
+    ################
+
+    SIZE="4194304"
+
+    # Create swapfile.
+    dd if=/dev/zero of=/swapfile bs=1024 count=$SIZE
+
+    # Format swapfile.
+    mkswap /swapfile
+
+    # Enable swap.
+    swapon /swapfile
+
+    # Mount swap at boot.
+    su -c "cat >> /etc/fstab << EOF
+    /swapfile none swap sw 0 0
+    EOF"
+
+    # Init.
+    apt-get update
+    apt-get install -y vim python-dev libffi-dev gcc libssl-dev python-pip
+    pip install -U pip
+    pip install -U ansible kolla-ansible
+    cp -r /usr/local/share/kolla-ansible/etc_examples/kolla /etc/kolla/
+
+    # Modify globals.yml
+    cp /etc/kolla/globals.yml /etc/kolla/globals.yml.ori
+    cp /vagrant/globals.yml /etc/kolla/globals.yml
+
+    # Generator password.
+    kolla-genpwd
+
+    # ... 
+    # not yet, see the https://hackmd.io/s/BycDsf4OZ
+
+  SHELL
+end
+
+# vi: set ft=ruby :
