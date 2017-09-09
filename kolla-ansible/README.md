@@ -1,5 +1,7 @@
 # Kolla-Ansible Workshop Hsinchu - NCTU | chusiang
 
+* slides: https://docs.google.com/presentation/d/1LRGXzHIV8jTosloWS5l6CKYYxxqStq9LKe78wqbb6nk/edit?usp=sharing
+
 > 活動網址：https://www.meetup.com/OpenStack-Taiwan-User-Group/events/242606941/
 
 本場次為一系列 Kolla-Ansible Workshop 在新竹場次的活動訊息。
