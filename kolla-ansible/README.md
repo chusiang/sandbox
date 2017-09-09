@@ -68,29 +68,32 @@ sudo cp -r /usr/local/share/kolla-ansible/etc_examples/kolla /etc/kolla/
 cp /usr/local/share/kolla-ansible/ansible/inventory/* .
 ```
 
-## 更改設定檔
+## 更改 `globals.yml` 設定檔
 
-設定檔在 `/etc/kolla/globals.yml`。
+> 完整路徑為 `/etc/kolla/globals.yml`。
 
 1. `base_distro: ubuntu`
-`kolla_install_type: source`
-~~`openstack_release: 4.0.2`~~
-`openstack_release: 4.0.0`
-![](https://i.imgur.com/vJSbFpX.png)
+1. `kolla_install_type: source`
+1. `openstack_release: 4.0.0`
+
+    ![](https://i.imgur.com/vJSbFpX.png)
 
 1. `kolla_internal_vip_address` 請填入目前操作的 server ip address。
-![](https://i.imgur.com/0pgYEkv.png)
 
-1. docker repo server 在 `172.24.0.100:4000`。
-![](https://i.imgur.com/B2ZG5kk.png)
+    ![](https://i.imgur.com/0pgYEkv.png)
+
+1. docker repo server 改為 `172.24.0.100:4000`。
+
+    ![](https://i.imgur.com/B2ZG5kk.png)
 
 1. `enable_haproxy: "no"`
-![](https://i.imgur.com/aRlPApM.png)
+
+    ![](https://i.imgur.com/aRlPApM.png)
 
 1. `network_interface enp8s0`
 1. `external_interface enp3s0f0`
-![](https://i.imgur.com/aQbEld4.jpg)
-`
+
+    ![](https://i.imgur.com/aQbEld4.jpg)
 
 ## 產生密碼
 
@@ -109,8 +112,8 @@ sudo kolla-ansible -i all-in-one post-deploy
 
 1. bootstrap-servers: 安裝必要套件。
 2. prechecks: 會做些基本檢查，因應有無開啟 HA Proxy 有所不同。
-3. deploy: 部署 xxx。
-4. post-deploy: 產生認證。
+3. deploy: 部署 OpenStack。
+4. post-deploy: 產生管理者帳戶。
 
 ## Login the OpenStack
 
@@ -121,7 +124,7 @@ sudo kolla-ansible -i all-in-one post-deploy
 
 ![](https://i.imgur.com/vV7zF6L.png)
 
-OpenStack 認證資訊請參考 `/etc/kolla/admin-openrc.sh`。
+管理者帳戶資訊請參考 `/etc/kolla/admin-openrc.sh`。
 
 ```
 ubuntu@kolla-ansible:~$ cat /etc/kolla/admin-openrc.sh
@@ -253,6 +256,7 @@ sudo tools/build.py -b ubuntu -t source --push --registry YOUR_REGISTRY_IP
 * -b base_distro
 * -t install_type
 
+> Gene Kuo 提到 `neutron_external_interface` 上不能有 IP，之後有機會再來深入研究了！
 
 ----
 
