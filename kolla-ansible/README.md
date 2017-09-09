@@ -82,7 +82,7 @@ cp /usr/local/share/kolla-ansible/ansible/inventory/* .
 
     ![](https://i.imgur.com/0pgYEkv.png)
 
-1. docker repo server 改為 `172.24.0.100:4000`。
+1. 若有自行架設 docker image repo server，則可從 `docker_registry` 進行修改；若無則保持註解的狀態即可。
 
     ![](https://i.imgur.com/B2ZG5kk.png)
 
