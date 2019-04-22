@@ -1,0 +1,10 @@
+---
+
+- name: Ansible x FreeBSD.
+  hosts: all
+  tasks:
+    - name: Print mount message.
+      debug:
+        var: hostvars[inventory_hostname]["ansible_devices"]
+
+# vim: ft=yaml.ansible :
