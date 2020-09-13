@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 # This is a guess the number game.
+#
+# > https://www.udemy.com/course/automate/learn/lecture/3465826#content
 
 import random
 
