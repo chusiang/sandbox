@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# For support python 2 and python 3 both.
 from __future__ import print_function
 
 __author__ = "Chu-Siang Lai"
