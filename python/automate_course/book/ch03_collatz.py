@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+
 __author__ = "Chu-Siang Lai"
 __maintainer__ = "Chu-Siang Lai"
 __email__ = "chusiang.lai (at) gmail.com"
@@ -28,11 +30,24 @@ __contact__ = "The Collatz homework of Ch03."
 > HINT:
 >
 > 如果 number % 2 == 0，number 整數就是偶數；如果 number % 2 == 1，那它就是奇數。
+
+## Result
+
+$ python3 ch03_collatz.py
+> Please input one integer: 3
+1)      => 10
+2)      ==> 5
+3)      ===> 16
+4)      ====> 8
+5)      =====> 4
+6)      ======> 2
+7)      =======> 1
 """
 
 
 def collatz(number):
     _divided_num = number % 2
+
     if _divided_num == 0:
         _num = number // 2
     elif _divided_num == 1:
@@ -43,13 +58,21 @@ def collatz(number):
 
 
 try:
-    print("==> Please input one integer: ")
+    print("> Please input one integer: ", end="")
     int_num = int(input())
-    result = collatz(int_num)
-    print(result)
+
+    result = int_num
+    time = 1
+    while result != 1:
+        result = collatz(result)
+
+        # Show result and feedback.
+        processes = "=" * time
+        print(str(time) + ") \t" + processes + "> " + str(result))
+        time += 1
 
 except ValueError:
-    print("===> ERROR: Please input the integer !")
+    print("==> ERROR: Please input the integer !")
 
 except NameError:
-    print("===> ERRPR: Please input the integer !")
+    print("==> ERRPR: Please input the integer !")
