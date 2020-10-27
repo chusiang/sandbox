@@ -1,0 +1,20 @@
+# -*- mode: ruby -*-
+#
+# https://app.vagrantup.com/xoan/boxes/proxmox-ve_6.2
+#
+# - Admin: root /// vagrant
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "xoan/proxmox-ve_6.2"
+  config.vm.box_version = "1.0"
+  config.vm.hostname = "pve"
+  config.vm.network "private_network", type: "dhcp"
+  config.vm.provider "virtualbox" do |vb|
+    vb.gui = true
+    vb.linked_clone = true
+    vb.memory = "8192"
+    vb.cpus = "4"
+  end
+end
+
+# vi: set ft=ruby :
