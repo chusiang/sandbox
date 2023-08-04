@@ -1,0 +1,12 @@
+---
+
+concurrency: 4
+base: 'https://gitlab.com'
+iterations: 3
+rampup: 2
+
+plan:
+
+  - name: Fetch login_in
+    request:
+      url: /users/sign_in
