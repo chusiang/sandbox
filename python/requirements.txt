@@ -29,7 +29,7 @@ path.py==8.1.2
 pexpect==4.0.1
 pickleshare==0.5
 ptyprocess==0.5
-py==1.4.30
+py==1.10.0
 Pygments==2.7.4
 pytest==2.8.2
 pyzmq==15.0.0
