@@ -10,7 +10,7 @@ functools32==3.2.3.post2
 gnureadline==6.3.3
 greenlet==0.4.9
 ipykernel==4.1.1
-ipython==4.0.0
+ipython==8.10.0
 ipython-genutils==0.1.0
 ipywidgets==4.1.1
 Jinja2>=2.10.1
