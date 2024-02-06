@@ -30,7 +30,7 @@ pexpect==4.0.1
 pickleshare==0.5
 ptyprocess==0.5
 py==1.10.0
-Pygments==2.7.4
+Pygments==2.15.0
 pytest==2.8.2
 pyzmq==15.0.0
 qtconsole==4.1.0
