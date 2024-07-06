@@ -3,7 +3,7 @@ backports-abc==0.4
 backports.ssl-match-hostname==3.4.0.2
 blessings==1.6
 bpython==0.14.2
-certifi==2023.7.22
+certifi==2024.7.4
 curtsies==0.1.21
 decorator==4.0.4
 functools32==3.2.3.post2
