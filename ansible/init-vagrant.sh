@@ -1,10 +1,13 @@
 #!/bin/bash
 
 # switch apt mirror.
+
 ## Ubuntu.
-sudo su -c "sed -i 's/archive.ubuntu.com/free.nchc.org.tw/g' /etc/apt/sources.list"
+sudo su -c "sed -i 's/us.archive.ubuntu.com/mirror.twds.com.tw/g' /etc/apt/sources.list.d/ubuntu.sources"
+
 ## Debian.
-sudo su -c "sed -i 's/httpredir.debian.org/opensource.nchc.org.tw/g' /etc/apt/sources.list"
+sudo su -c "sed -i 's/httpredir.debian.org/mirror.twds.com.tw/g' /etc/apt/sources.list"
+
 sudo apt-get update
 
 # install other package.
