@@ -1,57 +1,65 @@
 #!/usr/bin/env ansible-playbook
-# vim:ft=ansible :
 # ============================================================
 #  Author: chusiang / chusiang.lai (at) gmail.com
 #  Filename: upgrade-openssl.yml
 #  Modified: 2016-03-03 11:44
 #  Description: security upgrade the openssl package
-#  Reference: 
+#  Reference:
 #
 #   1. ansible print debug msg variable - Server Fault
 #    - http://serverfault.com/questions/695786/ansible-print-debug-msg-variable
 #   2. use yum list with ansible? need install 'yum-utils' package.
 #
-# =========================================================== 
+# ============================================================
 
 ---
-- name: upgrade package of openssl 
+- name: Upgrade package of openssl
   hosts: all
   tasks:
 
-    # Ubuntu
+    # - Ubuntu -------------------------------------------------------
     - name: upgrade on ubuntu
-      sudo: True
-      apt: name=openssl update_cache=yes state=latest cache_valid_time=3600
-      when: ansible_distribution == "Ubuntu"
+      become: true
+      apt:
+        name: openssl
+        update_cache: yes
+        state: latest
+        cache_valid_time: 3600
+      when: ansible_facts["distribution"] == "Ubuntu"
 
     - name: check version on ubuntu
       command: dpkg-query -W openssl
       register: dpkg_package_version
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_facts["distribution"] == "Ubuntu"
 
     - name: print version
       debug:
         msg: "Package Version: {{ dpkg_package_version.stdout }}"
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_facts["distribution"] == "Ubuntu"
 
-    # CentOS
+    # - CentOS -------------------------------------------------------
     - name: upgrade on centos
-      sudo: True
-      yum: name=openssl update_cache=yes state=latest
-      when: ansible_distribution == "CentOS"
+      become: true
+      yum:
+        name: openssl
+        update_cache: yes
+        state: latest
+      when: ansible_facts["distribution"] == "CentOS"
 
     - name: check version on centos
-      yum: list=openssl
+      yum:
+        list: openssl
       register: yum_package_list
-      when: ansible_distribution == "CentOS"
+      when: ansible_facts["distribution"] == "CentOS"
 
     - name: print version
       debug:
         msg: "{{ yum_package_list.results.1.nevra }}"
-      when: ansible_distribution == "CentOS"
+      when: ansible_facts["distribution"] == "CentOS"
 
     #- name: print list message
     #  debug:
     #    msg: "{{ yum_package_list }}"
     #  when: ansible_distribution == "CentOS"
 
+# vim:ft=yaml.ansible :

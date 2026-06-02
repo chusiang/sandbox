@@ -11,43 +11,38 @@ Vagrant.configure(2) do |config|
 
   # Managed node
   #
-  config.vm.define :ubuntu1 do |ubuntu|
-    ubuntu.vm.box = "ubuntu/trusty64"
-    ubuntu.vm.hostname = "ubuntu1.local"
+  config.vm.define :node1 do |node|
+    node.vm.box = "bento/ubuntu-24.04"
+    node.vm.hostname = "node1.local"
 
-    ubuntu.vm.network :private_network, ip: "33.33.33.31"
-    ubuntu.vm.network "forwarded_port", guest: 80, host: 8080
-    ubuntu.vm.network "forwarded_port", guest: 443, host: 8443
+    node.vm.network "private_network", ip: "192.168.56.11"
+    node.vm.network "forwarded_port", guest: 80, host: 8080
+    node.vm.network "forwarded_port", guest: 443, host: 8443
 
-    ubuntu.vm.provider "virtualbox" do |vb|
-      vb.memory = "256"
+    node.vm.provider "virtualbox" do |vb|
+      vb.memory = "512"
     end
 
     UBUNTU_SCRIPTS = [ "init-vagrant.sh", "install-vim.sh" ]
     for script_file in UBUNTU_SCRIPTS
-      ubuntu.vm.provision "shell", path: script_file
+      node.vm.provision "shell", path: script_file
     end
 
-    ubuntu.vm.provision "ansible" do |ansible|
-      ansible.playbook = "upgrade-openssl.yml"
-      #ansible.sudo = true
-      #ansible.verbose = "vvv"
-    end
   end
 
   # Jupyter
   #
   config.vm.define :jupyter, primary: true do |jupyter|
-    jupyter.vm.box = "ubuntu/trusty64"
+    jupyter.vm.box = "bento/ubuntu-24.04"
     jupyter.vm.hostname = "jupyter.local"
 
-    jupyter.vm.network :private_network, ip: "33.33.33.11"
+    jupyter.vm.network "private_network", ip: "192.168.56.10"
     jupyter.vm.network "forwarded_port", guest: 8888, host: 8888
 
     jupyter.vm.provider "virtualbox" do |vb|
-      vb.memory = "256"
+      vb.memory = "2048"
     end
-    
+
     # install jupyter.
     JUPYTER_SCRIPTS = [ "init-vagrant.sh", "init-jupyter.sh", "install-vim.sh" ]
     for script_file in JUPYTER_SCRIPTS
@@ -55,7 +50,7 @@ Vagrant.configure(2) do |config|
     end
 
     jupyter.vm.provision "shell", run: "always", inline: <<-SHELL
-      ipython notebook --notebook-dir=/vagrant --no-browser --ip=0.0.0.0 &
+      jupyter notebook --notebook-dir=/vagrant --no-browser --ip=0.0.0.0 &
     SHELL
 
     # install ansible.
