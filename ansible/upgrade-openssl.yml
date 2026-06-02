@@ -17,7 +17,7 @@
   hosts: all
   tasks:
 
-    # Ubuntu
+    # - Ubuntu -------------------------------------------------------
     - name: upgrade on ubuntu
       become: true
       apt:
@@ -25,42 +25,41 @@
         update_cache: yes
         state: latest
         cache_valid_time: 3600
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_facts["distribution"] == "Ubuntu"
 
     - name: check version on ubuntu
       command: dpkg-query -W openssl
       register: dpkg_package_version
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_facts["distribution"] == "Ubuntu"
 
     - name: print version
       debug:
         msg: "Package Version: {{ dpkg_package_version.stdout }}"
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_facts["distribution"] == "Ubuntu"
 
-    # CentOS
+    # - CentOS -------------------------------------------------------
     - name: upgrade on centos
       become: true
       yum:
         name: openssl
         update_cache: yes
         state: latest
-      when: ansible_distribution == "CentOS"
+      when: ansible_facts["distribution"] == "CentOS"
 
     - name: check version on centos
       yum:
         list: openssl
       register: yum_package_list
-      when: ansible_distribution == "CentOS"
+      when: ansible_facts["distribution"] == "CentOS"
 
     - name: print version
       debug:
         msg: "{{ yum_package_list.results.1.nevra }}"
-      when: ansible_distribution == "CentOS"
+      when: ansible_facts["distribution"] == "CentOS"
 
     #- name: print list message
     #  debug:
     #    msg: "{{ yum_package_list }}"
     #  when: ansible_distribution == "CentOS"
-
 
 # vim:ft=yaml.ansible :
