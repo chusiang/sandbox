@@ -13,7 +13,7 @@
 # 也可以用群組的方式
 #
 [vagrant]
-node1	ansible_ssh_host=192.168.50.11  ansible_ssh_port=22
+node1	ansible_ssh_host=192.168.56.11  ansible_ssh_port=22
 
 [test]
 # node1

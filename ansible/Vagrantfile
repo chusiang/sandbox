@@ -15,7 +15,7 @@ Vagrant.configure(2) do |config|
     node.vm.box = "bento/ubuntu-24.04"
     node.vm.hostname = "node1.local"
 
-    node.vm.network "private_network", ip: "192.168.50.11"
+    node.vm.network "private_network", ip: "192.168.56.11"
     node.vm.network "forwarded_port", guest: 80, host: 8080
     node.vm.network "forwarded_port", guest: 443, host: 8443
 
@@ -36,7 +36,7 @@ Vagrant.configure(2) do |config|
     jupyter.vm.box = "bento/ubuntu-24.04"
     jupyter.vm.hostname = "jupyter.local"
 
-    jupyter.vm.network "private_network", ip: "192.168.50.1"
+    jupyter.vm.network "private_network", ip: "192.168.56.10"
     jupyter.vm.network "forwarded_port", guest: 8888, host: 8888
 
     jupyter.vm.provider "virtualbox" do |vb|
