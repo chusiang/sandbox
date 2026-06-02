@@ -1,45 +1,52 @@
 #!/usr/bin/env ansible-playbook
-# vim:ft=ansible :
 # ============================================================
 #  Author: chusiang / chusiang.lai (at) gmail.com
 #  Blog: http://note.drx.tw
 #  Filename: dotfiles.yml
-#  Modified: 2016-03-04 02:43
-#  Description: deploying my dotfiles and vimrc.
-# =========================================================== 
+#  Modified: 2026-06-02 23:40
+#  Description: Deploying my dotfiles and vimrc.
+# ===========================================================
 
 ---
-- name: deploying my dotfiles and vimrc
+- name: Deploying my dotfiles and vimrc
   hosts: all
-  tasks: 
+  tasks:
 
-    - name: check vim verison
-      command:  vim --version | sed -n 1p
+    - name: Check vim verison
+      ansible.builtin.shell: vim --version | sed -n 1p
       register: vim_version
+      changed_when: false
 
-    - name: print vim version
-      debug:
+    - name: Print vim version
+      ansible.builtin.debug:
         msg: "Vim Version: {{ vim_version.stdout }}"
 
-    - name: create workspace for verison control system
-      file: path=~/vcs state=directory
+    - name: Create workspace for verison control system
+      file:
+        path: ~/vcs
+        state: directory
 
-    - name: get dotfiles
-      git:  repo=https://github.com/chusiang/tuxENV.git
-            dest=~/vcs/tuxENV
-            refspec=+refs/pull/*:refs/heads/*
+    - name: Get dotfiles
+      git:
+        repo: https://github.com/chusiang/tuxENV.git
+        dest: ~/vcs/tuxENV
 
-    - name: deploy dotfiles
-      shell: make install chdir="~/vcs/tuxENV/"
+    - name: Deploy dotfiles
+      shell: make install
+      args:
+        chdir: ~/vcs/tuxENV/
       ignore_errors: True
 
-    - name: get vimrc
-      git:  repo=https://github.com/chusiang/vimrc.git
-            dest=~/vcs/vimrc
-            refspec=+refs/pull/*:refs/heads/*
+    - name: Get vimrc
+      git:
+        repo: https://github.com/chusiang/vimrc.git
+        dest: ~/vcs/vimrc
 
-    - name: deploy vimrc
-      shell: make install chdir="~/vcs/vimrc/"
+    - name: Deploy vimrc
+      shell: make install
+      args:
+        chdir: ~/vcs/vimrc/
       async: 60
       ignore_errors: True
 
+# vim: set filetype=yaml.ansible
