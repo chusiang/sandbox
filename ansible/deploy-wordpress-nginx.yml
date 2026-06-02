@@ -1,5 +1,4 @@
 #!/usr/bin/env ansible-playbook
-# vim:ft=ansible:
 # ============================================================
 #  Author: chusiang / chusiang.lai (at) gmail.com
 #  Filename: deploy-wordpress-nginx.yml
@@ -8,14 +7,14 @@
 #
 #   deploy wordpress with Nginx + php5-fpm + MariaDB on Debian/Ubuntu.
 #
-#  Reference: 
+#  Reference:
 #
 #   1. ansible print debug msg variable - Server Fault
 #    - http://serverfault.com/questions/695786/ansible-print-debug-msg-variable
 #   2. ansible/ansible-examples/wordpress-nginx | GitHub
 #    - https://github.com/ansible/ansible-examples/tree/master/wordpress-nginx
 #
-# =========================================================== 
+# ============================================================
 ---
 
 - name: install php-fpm
@@ -23,17 +22,21 @@
   tasks:
 
     - name: install packages
-      sudo: True
-      apt: name={{ item }} update_cache=yes state=latest cache_valid_time=3600
+      become: true
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+        state: latest
+        cache_valid_time: 3600
       with_items:
-        - php5-cli
-        - php5-common
-        - php5-fpm
-        - php5-mysql
-        - php5-readline
+        - php-cli
+        - php-common
+        - php-fpm
+        - php-mysql
+        - php-readline
 
     - name: check version
-      command: dpkg-query -W php5-fpm
+      command: dpkg-query -W php-fpm
       register: dpkg_package_version
 
     - name: print version
@@ -41,34 +44,42 @@
         msg: "php-fpm Version: {{ dpkg_package_version.stdout }}"
 
     - name: modify php.ini
-      sudo: True
-      template: src=templates/php.ini.j2 dest=/etc/php5/fpm/php.ini
+      become: true
+      template:
+        src: templates/php.ini.j2
+        dest: /etc/php/8.3/fpm/php.ini
       notify:
         - restart php-fpm
 
     - name: start php-fpm
-      sudo: True
-      service: name=php5-fpm state=started enabled=yes
+      become: true
+      service:
+        name: php8.3-fpm
+        state: started
+        enabled: yes
 
   handlers:
 
     - name: restart php-fpm
-      sudo: True
-      service: name=php5-fpm state=restarted
+      become: true
+      service:
+        name: php5-fpm
+        state: restarted
 
 - name: install nginx
   hosts: all
   vars:
-
     conf_file: /etc/nginx/sites-available/default
 
   tasks:
-  
+
     - name: install packages
-      sudo: True
-      apt: name={{ item }} update_cache=yes state=latest cache_valid_time=3600
-      with_items:
-        - nginx
+      become: true
+      apt:
+        name: nginx
+        update_cache: yes
+        state: latest
+        cache_valid_time: 3600
 
     - name: check version
       command: dpkg-query -W nginx
@@ -79,47 +90,53 @@
         msg: "Nginx Version: {{ dpkg_package_version.stdout }}"
 
     - name: modify nginx.conf
-      sudo: True
-      template: src=templates/templates/nginx/nginx.conf.j2 dest=/etc/nginx/nginx.conf
+      become: true
+      template:
+        src: templates/nginx/nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
       notify:
         - restart nginx
 
     - name: backup origin vhost
-      sudo: True
+      become: true
       copy:
-        src: {{ conf_file }}
+        src: "{{ conf_file }}"
         dest: /etc/nginx/sites-available/default.ori
+        remote_src: yes
       notify:
         - restart nginx
 
     - name: add vhost
-      sudo: True
+      become: true
       template:
         src: templates/nginx/wordpress.j2
-        dest: {{ conf_file }}
+        dest: "{{ conf_file }}"
       notify:
         - restart nginx
 
     - name: enable vhost
-      sudo: True
+      become: true
       file:
-        src: {{ conf_file }}
+        src: "{{ conf_file }}"
         dest: /etc/nginx/sites-enabled/default
         state: link
 
     - name: start nginx
-      sudo: True
-      service: name=nginx state=started enabled=yes
+      become: true
+      service:
+        name: nginx
+        state: started
+        enabled: yes
 
   handlers:
 
     - name: restart nginx
-      sudo: True
+      become: true
       service: name=nginx state=restarted
 
       #- name: install mariadb
       #  hosts: all
-      #  sudo: True
+      #  become: true
       #  tasks:
       #
       #    - name: add apt repository
@@ -137,4 +154,4 @@
       #    - name: start mariadb
       #      service: name=mariadb state=started enabled=yes
 
-
+# vim:ft=yaml.ansible:
